@@ -11,10 +11,12 @@ export const LogoCloud: Block = {
     {
       name: 'eyebrow',
       type: 'text',
+      defaultValue: 'Our Clients',
     },
     {
       name: 'title',
       type: 'text',
+      defaultValue: 'Our Valued Industry Clients',
       required: true,
     },
     {

@@ -13,10 +13,12 @@ export const SplitFeature: Block = {
     {
       name: 'eyebrow',
       type: 'text',
+      defaultValue: 'About Us',
     },
     {
       name: 'title',
       type: 'text',
+      defaultValue: 'Portmizer Philippines Corporation',
       required: true,
     },
     {
@@ -25,6 +27,9 @@ export const SplitFeature: Block = {
     },
     link({
       appearances: false,
+      overrides: {
+        defaultValue: { type: 'custom', label: 'Find Out More', url: '/about' },
+      },
     }),
     {
       name: 'images',
@@ -42,6 +47,7 @@ export const SplitFeature: Block = {
     {
       name: 'reverse',
       type: 'checkbox',
+      defaultValue: false,
       label: 'Show text on the right',
     },
   ],
