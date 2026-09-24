@@ -57,14 +57,19 @@ export const Showcase: Block = {
         {
           name: 'title',
           type: 'text',
+          defaultValue: 'New product',
           required: true,
         },
         {
           name: 'text',
           type: 'textarea',
+          defaultValue: 'Describe the product or service and what it delivers for your port operations.',
         },
         link({
           appearances: false,
+          overrides: {
+            defaultValue: { type: 'custom', label: 'Learn more', url: '/products' },
+          },
         }),
       ],
       admin: {
