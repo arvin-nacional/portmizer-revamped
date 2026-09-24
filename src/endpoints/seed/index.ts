@@ -98,7 +98,53 @@ export const seed = async ({
     ),
   ])
 
-  const [demoAuthor, image1Doc, image2Doc, image3Doc, imageHomeDoc] = await Promise.all([
+  const portmizerAssets = [
+    { url: 'https://www.portmizer.com/assets/images/slider-2.jpg', alt: 'Port and container handling operations' },
+    { url: 'https://www.portmizer.com/assets/images/home-about-image1.svg', alt: 'Portmizer operations' },
+    { url: 'https://www.portmizer.com/assets/images/home-about-image2.svg', alt: 'Portmizer team' },
+    { url: 'https://www.portmizer.com/assets/images/home-product-kalmar.jpg', alt: 'Kalmar Port and Terminal System' },
+    { url: 'https://www.portmizer.com/assets/images/home-product-sumitomo.jpg', alt: 'Sumitomo Rubber Industries' },
+    { url: 'https://www.portmizer.com/assets/images/home-product-dafo.jpg', alt: 'Dafo Vehicle Fire Protection' },
+    { url: 'https://www.portmizer.com/assets/images/home-product-tecContainer.jpg', alt: 'Tec Container' },
+    { url: 'https://www.portmizer.com/assets/images/home-products-mantsinen.jpg', alt: 'Mantsinen Mobile Harbor Crane' },
+    { url: 'https://www.portmizer.com/assets/images/home-product-actiw.jpg', alt: 'Actiw Loadplate' },
+    { url: 'https://www.portmizer.com/assets/images/services1.jpg', alt: 'Genuine Spare Parts' },
+    { url: 'https://www.portmizer.com/assets/images/preventive-maintenance.jpg', alt: 'Preventive Maintenance' },
+    { url: 'https://www.portmizer.com/assets/images/services3.jpg', alt: 'Performance Upgrade' },
+    { url: 'https://www.portmizer.com/assets/images/services4.jpg', alt: 'Conversions and Overhauling' },
+    { url: 'https://www.portmizer.com/assets/images/training.jpg', alt: 'Maintenance and Operators Training' },
+    ...[0, 1, 2, 3, 4, 5, 6, 7].map((n) => ({
+      url: `https://www.portmizer.com/assets/logo/${n}.svg`,
+      alt: `Client logo ${n + 1}`,
+    })),
+    ...[1, 2, 3, 4, 5, 6].map((n) => ({
+      url: `https://www.portmizer.com/assets/logo/partner-logo-${n}.${n === 1 ? 'png' : 'svg'}`,
+      alt: `Partner logo ${n}`,
+    })),
+  ]
+
+  const portmizerBuffers = await Promise.all(
+    portmizerAssets.map((asset) => fetchFileByURL(asset.url)),
+  )
+
+  const portmizerMedia = await Promise.all(
+    portmizerAssets.map((asset, i) =>
+      payload.create({
+        collection: 'media',
+        data: { alt: asset.alt },
+        file: portmizerBuffers[i],
+      }),
+    ),
+  )
+
+  const [heroImage, aboutImage1, aboutImage2, ...restMedia] = portmizerMedia
+  const productImages = restMedia.slice(0, 6)
+  const serviceImages = restMedia.slice(6, 11)
+  const clientLogos = restMedia.slice(11, 19)
+  const partnerLogos = restMedia.slice(19, 25)
+  const aboutImages = [aboutImage1, aboutImage2].filter(Boolean)
+
+  const [demoAuthor, image1Doc, image2Doc, image3Doc] = await Promise.all([
     payload.create({
       collection: 'users',
       data: {
@@ -206,7 +252,15 @@ export const seed = async ({
     payload.create({
       collection: 'pages',
       depth: 0,
-      data: home({ heroImage: imageHomeDoc, metaImage: image2Doc }),
+      data: home({
+        heroImage,
+        aboutImages,
+        productImages,
+        serviceImages,
+        clientLogos,
+        partnerLogos,
+        metaImage: image2Doc,
+      }),
     }),
     payload.create({
       collection: 'pages',
@@ -225,8 +279,80 @@ export const seed = async ({
           {
             link: {
               type: 'custom',
+              label: 'Products',
+              url: '/products',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
+              label: 'Services',
+              url: '/services',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
+              label: 'Locations',
+              url: '/locations',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
               label: 'Posts',
               url: '/posts',
+            },
+          },
+        ],
+        cta: {
+          link: {
+            type: 'reference',
+            label: 'Contact Us',
+            reference: {
+              relationTo: 'pages',
+              value: contactPage.id,
+            },
+          },
+        },
+      },
+    }),
+    payload.updateGlobal({
+      slug: 'footer',
+      data: {
+        description:
+          'Portmizer Philippines Corporation supplies and services port and material handling equipment, delivering only the best for its customers.',
+        contact: {
+          phone: '02-85245514',
+          email: 'info@portmizer.com',
+          address:
+            'Rm. 117 Mercantile Insurance Bldg. Gen. Luna St. corner Beaterio St. Intramuros, Manila 1002',
+        },
+        socialLinks: [
+          { platform: 'facebook', url: 'https://www.facebook.com/portmizer' },
+          { platform: 'instagram', url: 'https://www.instagram.com/portmizer' },
+          { platform: 'linkedin', url: 'https://www.linkedin.com/company/portmizer' },
+        ],
+        navItems: [
+          {
+            link: {
+              type: 'custom',
+              label: 'Products',
+              url: '/products',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
+              label: 'Services',
+              url: '/services',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
+              label: 'Locations',
+              url: '/locations',
             },
           },
           {
@@ -237,36 +363,6 @@ export const seed = async ({
                 relationTo: 'pages',
                 value: contactPage.id,
               },
-            },
-          },
-        ],
-      },
-    }),
-    payload.updateGlobal({
-      slug: 'footer',
-      data: {
-        navItems: [
-          {
-            link: {
-              type: 'custom',
-              label: 'Admin',
-              url: '/admin',
-            },
-          },
-          {
-            link: {
-              type: 'custom',
-              label: 'Source Code',
-              newTab: true,
-              url: 'https://github.com/payloadcms/payload/tree/3.x/templates/website',
-            },
-          },
-          {
-            link: {
-              type: 'custom',
-              label: 'Payload',
-              newTab: true,
-              url: 'https://payloadcms.com/',
             },
           },
         ],

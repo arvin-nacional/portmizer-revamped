@@ -32,6 +32,16 @@ export const CallToAction: Block = {
       appearances: ['default', 'outline'],
       overrides: {
         maxRows: 2,
+        defaultValue: [
+          {
+            link: {
+              type: 'custom',
+              appearance: 'default',
+              label: 'Ask for a free consult',
+              url: '/contact',
+            },
+          },
+        ],
       },
     }),
   ],
