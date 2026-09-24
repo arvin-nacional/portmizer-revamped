@@ -8,6 +8,9 @@ interface Props {
   variant?: 'color' | 'white'
 }
 
+/* The brand asset only exists in green, so the white treatment is a filter on it */
+const whiteFilter = 'brightness-0 invert'
+
 export const Logo = (props: Props) => {
   const {
     loading: loadingFromProps,
@@ -28,8 +31,8 @@ export const Logo = (props: Props) => {
       loading={loading}
       fetchPriority={priority}
       decoding="async"
-      className={clsx('h-9 w-auto', className)}
-      src={variant === 'white' ? '/brand/portmizer-logo-white.png' : '/brand/portmizer-logo.png'}
+      className={clsx('h-9 w-auto', variant === 'white' && whiteFilter, className)}
+      src="/brand/portmizer-logo.png"
     />
   )
 }

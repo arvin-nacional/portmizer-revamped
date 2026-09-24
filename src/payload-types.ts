@@ -1652,8 +1652,11 @@ export interface Header {
         id?: string | null;
       }[]
     | null;
-  cta: {
-    link: {
+  /**
+   * Leave the label empty to hide the call to action button.
+   */
+  cta?: {
+    link?: {
       type?: ('reference' | 'custom') | null;
       newTab?: boolean | null;
       reference?:
@@ -1666,7 +1669,7 @@ export interface Header {
             value: string | Post;
           } | null);
       url?: string | null;
-      label: string;
+      label?: string | null;
     };
   };
   updatedAt?: string | null;

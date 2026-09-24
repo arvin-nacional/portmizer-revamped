@@ -17,7 +17,8 @@ type Props = {
 
 export const HeaderNav: React.FC<Props> = ({ data, mobileOpen, onMobileToggle }) => {
   const navItems = data?.navItems || []
-  const ctaLink = data?.cta?.link
+  const cta = data?.cta?.link
+  const ctaLink = cta?.label ? cta : null
 
   return (
     <React.Fragment>
