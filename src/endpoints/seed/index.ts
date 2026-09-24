@@ -98,7 +98,53 @@ export const seed = async ({
     ),
   ])
 
-  const [demoAuthor, image1Doc, image2Doc, image3Doc, imageHomeDoc] = await Promise.all([
+  const portmizerAssets = [
+    { url: 'https://www.portmizer.com/assets/images/slider-2.jpg', alt: 'Port and container handling operations' },
+    { url: 'https://www.portmizer.com/assets/images/home-about-image1.svg', alt: 'Portmizer operations' },
+    { url: 'https://www.portmizer.com/assets/images/home-about-image2.svg', alt: 'Portmizer team' },
+    { url: 'https://www.portmizer.com/assets/images/home-product-kalmar.jpg', alt: 'Kalmar Port and Terminal System' },
+    { url: 'https://www.portmizer.com/assets/images/home-product-sumitomo.jpg', alt: 'Sumitomo Rubber Industries' },
+    { url: 'https://www.portmizer.com/assets/images/home-product-dafo.jpg', alt: 'Dafo Vehicle Fire Protection' },
+    { url: 'https://www.portmizer.com/assets/images/home-product-tecContainer.jpg', alt: 'Tec Container' },
+    { url: 'https://www.portmizer.com/assets/images/home-products-mantsinen.jpg', alt: 'Mantsinen Mobile Harbor Crane' },
+    { url: 'https://www.portmizer.com/assets/images/home-product-actiw.jpg', alt: 'Actiw Loadplate' },
+    { url: 'https://www.portmizer.com/assets/images/services1.jpg', alt: 'Genuine Spare Parts' },
+    { url: 'https://www.portmizer.com/assets/images/preventive-maintenance.jpg', alt: 'Preventive Maintenance' },
+    { url: 'https://www.portmizer.com/assets/images/services3.jpg', alt: 'Performance Upgrade' },
+    { url: 'https://www.portmizer.com/assets/images/services4.jpg', alt: 'Conversions and Overhauling' },
+    { url: 'https://www.portmizer.com/assets/images/training.jpg', alt: 'Maintenance and Operators Training' },
+    ...[0, 1, 2, 3, 4, 5, 6, 7].map((n) => ({
+      url: `https://www.portmizer.com/assets/logo/${n}.svg`,
+      alt: `Client logo ${n + 1}`,
+    })),
+    ...[1, 2, 3, 4, 5, 6].map((n) => ({
+      url: `https://www.portmizer.com/assets/logo/partner-logo-${n}.${n === 1 ? 'png' : 'svg'}`,
+      alt: `Partner logo ${n}`,
+    })),
+  ]
+
+  const portmizerBuffers = await Promise.all(
+    portmizerAssets.map((asset) => fetchFileByURL(asset.url)),
+  )
+
+  const portmizerMedia = await Promise.all(
+    portmizerAssets.map((asset, i) =>
+      payload.create({
+        collection: 'media',
+        data: { alt: asset.alt },
+        file: portmizerBuffers[i],
+      }),
+    ),
+  )
+
+  const [heroImage, aboutImage1, aboutImage2, ...restMedia] = portmizerMedia
+  const productImages = restMedia.slice(0, 6)
+  const serviceImages = restMedia.slice(6, 11)
+  const clientLogos = restMedia.slice(11, 19)
+  const partnerLogos = restMedia.slice(19, 25)
+  const aboutImages = [aboutImage1, aboutImage2].filter(Boolean)
+
+  const [demoAuthor, image1Doc, image2Doc, image3Doc] = await Promise.all([
     payload.create({
       collection: 'users',
       data: {
@@ -206,7 +252,15 @@ export const seed = async ({
     payload.create({
       collection: 'pages',
       depth: 0,
-      data: home({ heroImage: imageHomeDoc, metaImage: image2Doc }),
+      data: home({
+        heroImage,
+        aboutImages,
+        productImages,
+        serviceImages,
+        clientLogos,
+        partnerLogos,
+        metaImage: image2Doc,
+      }),
     }),
     payload.create({
       collection: 'pages',
