@@ -25,6 +25,16 @@ export const Header: GlobalConfig = {
         },
       },
     },
+    {
+      name: 'cta',
+      type: 'group',
+      label: 'Call to action',
+      fields: [
+        link({
+          appearances: false,
+        }),
+      ],
+    },
   ],
   hooks: {
     afterChange: [revalidateHeader],
