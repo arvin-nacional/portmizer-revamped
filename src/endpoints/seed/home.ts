@@ -118,26 +118,31 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
     slug: 'home',
     _status: 'published',
     hero: {
-      type: 'highImpact',
-      links: [
-        {
-          link: {
-            type: 'custom',
-            appearance: 'default',
-            label: 'Ask for a free consult',
-            url: '/contact',
-          },
-        },
-      ],
-      media: heroImage.id,
-      richText: richText(
-        heading('h1', 'Driving Excellence in Port and Container Handling since 1990'),
-        paragraph(
-          "At Portmizer, we don't just provide equipment — we provide peace of mind. Trust us to be your steadfast partner in driving progress and achieving operational excellence in the dynamic world of port and container handling.",
-        ),
-      ),
+      type: 'none',
     },
     layout: [
+      {
+        blockType: 'heroBanner',
+        eyebrow: 'Since 1990',
+        heading: 'Driving Excellence in Port and Container Handling',
+        description:
+          "At Portmizer, we don't just provide equipment — we provide peace of mind. Trust us to be your steadfast partner in driving progress and achieving operational excellence in the dynamic world of port and container handling.",
+        link: {
+          type: 'custom',
+          label: 'Ask for a free consult',
+          url: '/contact',
+        },
+        slides: [heroImage, ...serviceImages.slice(0, 2)].map((image) => ({
+          image: image.id,
+        })),
+        quickLinks: services.map((service) => ({
+          link: {
+            type: 'custom',
+            label: service.title,
+            url: '/services',
+          },
+        })),
+      },
       {
         blockType: 'splitFeature',
         eyebrow: 'About Us',

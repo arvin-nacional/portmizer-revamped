@@ -6,6 +6,7 @@ import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
+import { HeroBannerBlock } from '@/blocks/HeroBanner/Component'
 import { LogoCloudBlock } from '@/blocks/LogoCloud/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { ShowcaseBlock } from '@/blocks/Showcase/Component'
@@ -16,6 +17,7 @@ const blockComponents = {
   content: ContentBlock,
   cta: CallToActionBlock,
   formBlock: FormBlock,
+  heroBanner: HeroBannerBlock,
   logoCloud: LogoCloudBlock,
   mediaBlock: MediaBlock,
   showcase: ShowcaseBlock,
