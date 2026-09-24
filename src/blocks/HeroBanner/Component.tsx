@@ -3,7 +3,6 @@ import React from 'react'
 import type { HeroBannerBlock as HeroBannerBlockProps } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
-import { ArrowRightIcon } from 'lucide-react'
 import { HeroCarousel } from './Carousel'
 
 export const HeroBannerBlock: React.FC<HeroBannerBlockProps> = ({
@@ -11,7 +10,6 @@ export const HeroBannerBlock: React.FC<HeroBannerBlockProps> = ({
   eyebrow,
   heading,
   link,
-  quickLinks,
   slides,
 }) => {
   return (
@@ -42,27 +40,6 @@ export const HeroBannerBlock: React.FC<HeroBannerBlockProps> = ({
           )}
         </div>
       </div>
-
-      {quickLinks && quickLinks.length > 0 && (
-        <div className="absolute inset-x-0 bottom-0 z-10 border-t border-white/15 bg-ink-900/60 backdrop-blur-sm">
-          <div className="container flex items-stretch gap-6 overflow-x-auto py-5">
-            {quickLinks.map(({ link: quickLink }, i) => {
-              if (!quickLink?.label) return null
-
-              return (
-                <CMSLink
-                  className="group flex items-center gap-2 whitespace-nowrap text-sm font-medium text-white/75 no-underline transition-colors hover:text-brand-300"
-                  key={i}
-                  {...quickLink}
-                >
-                  {quickLink.label}
-                  <ArrowRightIcon className="size-4 text-brand-400 transition-transform group-hover:translate-x-1" />
-                </CMSLink>
-              )
-            })}
-          </div>
-        </div>
-      )}
     </section>
   )
 }

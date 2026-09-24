@@ -135,13 +135,6 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
         slides: [heroImage, ...serviceImages.slice(0, 2)].map((image) => ({
           image: image.id,
         })),
-        quickLinks: services.map((service) => ({
-          link: {
-            type: 'custom',
-            label: service.title,
-            url: '/services',
-          },
-        })),
       },
       {
         blockType: 'splitFeature',

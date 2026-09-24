@@ -1,8 +1,6 @@
 import type { Block } from 'payload'
 
 import { link } from '@/fields/link'
-import { linkGroup } from '@/fields/linkGroup'
-
 export const HeroBanner: Block = {
   slug: 'heroBanner',
   interfaceName: 'HeroBannerBlock',
@@ -52,20 +50,5 @@ export const HeroBanner: Block = {
         initCollapsed: true,
       },
     },
-    linkGroup({
-      appearances: false,
-      overrides: {
-        name: 'quickLinks',
-        label: 'Quick links strip',
-        maxRows: 6,
-        defaultValue: [
-          { link: { type: 'custom', label: 'Genuine Spare Parts', url: '/services' } },
-          { link: { type: 'custom', label: 'Preventive Maintenance', url: '/services' } },
-          { link: { type: 'custom', label: 'Performance Upgrade', url: '/services' } },
-          { link: { type: 'custom', label: 'Conversions and Overhauling', url: '/services' } },
-          { link: { type: 'custom', label: 'Operators Training', url: '/services' } },
-        ],
-      },
-    }),
   ],
 }

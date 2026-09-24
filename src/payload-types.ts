@@ -478,26 +478,6 @@ export interface HeroBannerBlock {
     image: string | Media;
     id?: string | null;
   }[];
-  quickLinks?:
-    | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: string | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: string | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-        };
-        id?: string | null;
-      }[]
-    | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'heroBanner';
@@ -1280,20 +1260,6 @@ export interface HeroBannerBlockSelect<T extends boolean = true> {
     | T
     | {
         image?: T;
-        id?: T;
-      };
-  quickLinks?:
-    | T
-    | {
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
         id?: T;
       };
   id?: T;
